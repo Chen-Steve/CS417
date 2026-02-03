@@ -6,9 +6,8 @@
 
 
 # IL2CPP generated code
-*BackUpThisFolder_ButDontShipItWithYourGame/
-game_BackUpThisFolder_ButDontShipItWithYourGame/
-game2_BackUpThisFolder_ButDontShipItWithYourGame/
+/game_BackUpThisFolder_ButDontShipItWithYourGame/
+/game2_BackUpThisFolder_ButDontShipItWithYourGame/
 
 # Burst compiler debug output
 *_BurstDebugInformation_DoNotShip/
