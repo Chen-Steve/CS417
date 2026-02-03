@@ -2,6 +2,17 @@
 #
 # Get latest from https://github.com/github/gitignore/blob/main/Unity.gitignore
 #
+
+
+
+# IL2CPP generated code
+*BackUpThisFolder_ButDontShipItWithYourGame/
+game_BackUpThisFolder_ButDontShipItWithYourGame/
+game2_BackUpThisFolder_ButDontShipItWithYourGame/
+
+# Burst compiler debug output
+*_BurstDebugInformation_DoNotShip/
+
 .utmp/
 /[Ll]ibrary/
 /[Tt]emp/
