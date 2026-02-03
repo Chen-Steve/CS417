@@ -7,18 +7,24 @@ public class BreakOutTeleport : MonoBehaviour
     public InputActionReference action;
 
     [Header("Teleport Targets")]
-    public Transform insidePoint;   // where player starts
-    public Transform outsidePoint;  // external viewing point
+    public Transform insidePoint;
+    public Transform outsidePoint;
 
     private bool isOutside = false;
 
     void Start()
     {
-        // Enable input
         action.action.Enable();
 
-        // Teleport on button press
-        action.action.performed += (ctx) =>
+        // Start inside
+        if (insidePoint != null)
+        {
+            transform.position = insidePoint.position;
+            transform.rotation = insidePoint.rotation;
+            isOutside = false;
+        }
+
+        action.action.started += (ctx) =>
         {
             ToggleTeleport();
         };
@@ -26,10 +32,14 @@ public class BreakOutTeleport : MonoBehaviour
 
     void ToggleTeleport()
     {
+        if (insidePoint == null || outsidePoint == null)
+            return;
+
         Transform target = isOutside ? insidePoint : outsidePoint;
 
-        // Move player rig root to target position/rotation
-        transform.SetPositionAndRotation(target.position, target.rotation);
+        // Move Camera Offset, not XR Origin
+        transform.position = target.position;
+        transform.rotation = target.rotation;
 
         isOutside = !isOutside;
     }
