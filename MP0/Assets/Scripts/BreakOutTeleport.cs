@@ -1,10 +1,14 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.XR.Interaction.Toolkit.Locomotion.Teleportation;
 
 public class BreakOutTeleport : MonoBehaviour
 {
     [Header("Input")]
     public InputActionReference action;
+
+    [Header("Teleport Provider")]
+    public TeleportationProvider teleportationProvider;
 
     [Header("Teleport Targets")]
     public Transform insidePoint;
@@ -15,32 +19,37 @@ public class BreakOutTeleport : MonoBehaviour
     void Start()
     {
         action.action.Enable();
+        action.action.started += (ctx) => ToggleTeleport();
 
-        // Start inside
+        // optional: start inside
         if (insidePoint != null)
         {
-            transform.position = insidePoint.position;
-            transform.rotation = insidePoint.rotation;
+            TeleportTo(insidePoint);
             isOutside = false;
         }
-
-        action.action.started += (ctx) =>
-        {
-            ToggleTeleport();
-        };
     }
 
     void ToggleTeleport()
     {
-        if (insidePoint == null || outsidePoint == null)
+        Debug.Log("B pressed - ToggleTeleport fired");
+        
+        if (insidePoint == null || outsidePoint == null || teleportationProvider == null)
             return;
 
         Transform target = isOutside ? insidePoint : outsidePoint;
-
-        // Move Camera Offset, not XR Origin
-        transform.position = target.position;
-        transform.rotation = target.rotation;
-
+        TeleportTo(target);
         isOutside = !isOutside;
+    }
+
+    void TeleportTo(Transform target)
+    {
+        var req = new TeleportRequest
+        {
+            destinationPosition = target.position,
+            destinationRotation = target.rotation,
+            matchOrientation = MatchOrientation.TargetUpAndForward
+        };
+
+        teleportationProvider.QueueTeleportRequest(req);
     }
 }
