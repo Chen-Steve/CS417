@@ -29,7 +29,7 @@ public class LightSwitch : MonoBehaviour
     {
         if (isOn)
         {
-            pointLight.color = Color.red;   // change color
+            pointLight.color = Color.purple;   // change color
             isOn = false;
         }
         else
