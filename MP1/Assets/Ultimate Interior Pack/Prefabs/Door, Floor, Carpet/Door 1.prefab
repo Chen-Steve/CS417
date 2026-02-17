@@ -54,19 +54,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5453983238443674615, guid: bdfb9d91fc0e6bf48b1cd9a12ea28487, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0.9542226
       objectReference: {fileID: 0}
     - target: {fileID: 5453983238443674615, guid: bdfb9d91fc0e6bf48b1cd9a12ea28487, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 5453983238443674615, guid: bdfb9d91fc0e6bf48b1cd9a12ea28487, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0.29909745
       objectReference: {fileID: 0}
     - target: {fileID: 5453983238443674615, guid: bdfb9d91fc0e6bf48b1cd9a12ea28487, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -184,4 +184,4 @@ MonoBehaviour:
   startAngle: 0
   endAngle: -86.8
   rotationAxis: 1
-  rotation: 0
+  rotation: 0.401
