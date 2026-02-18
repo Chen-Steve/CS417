@@ -3,7 +3,7 @@ using UnityEngine;
 public class DoorController : MonoBehaviour
 {
     [Header("Unlock Requirements")]
-    public int locksNeeded = 3;                 // number of sockets/locks (usually 3)
+    public int locksNeeded = 3;
 
     [Header("Transform that actually moves (door hinge / moving door part)")]
     public Transform door;
@@ -13,8 +13,11 @@ public class DoorController : MonoBehaviour
     public float openSpeed = 2f;
 
     [Header("Safety")]
-    public float ignoreEventsForSeconds = 1.0f; // ignore early socket noise
-    public bool holdDoorClosedUntilUnlocked = true; // IMPORTANT: prevents auto-opening from other components
+    public float ignoreEventsForSeconds = 1.0f;
+    public bool holdDoorClosedUntilUnlocked = true;
+
+    [Header("UI")]
+    public EscapeUI ui;
 
     private bool[] lockTriggered;
     private int triggeredCount = 0;
@@ -53,7 +56,6 @@ public class DoorController : MonoBehaviour
     {
         if (!unlocked)
         {
-            // Clamp door shut unless unlocked
             if (holdDoorClosedUntilUnlocked)
                 door.localRotation = closedRot;
 
@@ -75,12 +77,15 @@ public class DoorController : MonoBehaviour
         }
 
         if (lockTriggered[socketIndex])
-            return; // don’t double count
+            return;
 
         lockTriggered[socketIndex] = true;
         triggeredCount++;
 
         Debug.Log($"DoorController: lock {socketIndex} triggered -> {triggeredCount}/{locksNeeded}");
+
+        if (ui != null)
+            ui.SetLocksTriggered(triggeredCount);
 
         if (triggeredCount >= locksNeeded)
         {
