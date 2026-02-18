@@ -2,46 +2,90 @@ using UnityEngine;
 
 public class DoorController : MonoBehaviour
 {
-    public int keysNeeded = 3;
-    public Transform door;                 // drag door_body here
+    [Header("Unlock Requirements")]
+    public int locksNeeded = 3;                 // number of sockets/locks (usually 3)
+
+    [Header("Transform that actually moves (door hinge / moving door part)")]
+    public Transform door;
+
+    [Header("Open Rotation (degrees)")]
     public Vector3 openOffset = new Vector3(0f, 90f, 0f);
     public float openSpeed = 2f;
 
-    private bool opening = false;
+    [Header("Safety")]
+    public float ignoreEventsForSeconds = 1.0f; // ignore early socket noise
+    public bool holdDoorClosedUntilUnlocked = true; // IMPORTANT: prevents auto-opening from other components
+
+    private bool[] lockTriggered;
+    private int triggeredCount = 0;
+
+    private bool unlocked = false;
+
     private Quaternion closedRot;
     private Quaternion openRot;
 
-    void Start()
+    private float startTime;
+
+    void Awake()
     {
-        Debug.Log("DoorController START on: " + gameObject.name);
+        startTime = Time.time;
 
         if (door == null)
         {
-            Debug.LogError("DoorController: 'door' is NOT assigned!");
+            Debug.LogError("DoorController: 'door' Transform not assigned.");
+            enabled = false;
             return;
         }
 
         closedRot = door.localRotation;
         openRot = closedRot * Quaternion.Euler(openOffset);
 
-        Debug.Log($"DoorController: keysNeeded={keysNeeded}, door={door.name}, openOffset={openOffset}");
+        lockTriggered = new bool[Mathf.Max(1, locksNeeded)];
+        triggeredCount = 0;
+        unlocked = false;
 
-        if (keysNeeded == 0)
-        {
-            opening = true;
-            Debug.Log("DoorController: TEST MODE opening = true");
-        }
+        door.localRotation = closedRot;
+
+        Debug.Log($"DoorController ready. locksNeeded={locksNeeded}. Holding closed={holdDoorClosedUntilUnlocked}");
     }
 
     void Update()
     {
-        if (!opening) return;
+        if (!unlocked)
+        {
+            // Clamp door shut unless unlocked
+            if (holdDoorClosedUntilUnlocked)
+                door.localRotation = closedRot;
+
+            return;
+        }
+
         door.localRotation = Quaternion.Slerp(door.localRotation, openRot, Time.deltaTime * openSpeed);
     }
 
-    public void RegisterKey()
+    public void RegisterKeyFromSocket(int socketIndex)
     {
-        opening = true;
-        Debug.Log("DoorController: RegisterKey called -> opening true");
+        if (Time.time - startTime < ignoreEventsForSeconds)
+            return;
+
+        if (socketIndex < 0 || socketIndex >= lockTriggered.Length)
+        {
+            Debug.LogWarning($"DoorController: socketIndex {socketIndex} out of range (0..{lockTriggered.Length - 1})");
+            return;
+        }
+
+        if (lockTriggered[socketIndex])
+            return; // don’t double count
+
+        lockTriggered[socketIndex] = true;
+        triggeredCount++;
+
+        Debug.Log($"DoorController: lock {socketIndex} triggered -> {triggeredCount}/{locksNeeded}");
+
+        if (triggeredCount >= locksNeeded)
+        {
+            unlocked = true;
+            Debug.Log("DoorController: UNLOCKED -> opening door");
+        }
     }
 }
