@@ -8,18 +8,11 @@ public class ResourceBank : MonoBehaviour
 
     void Start()
     {
-        UpdateUI();
     }
 
     public void AddMoney(float amount)
     {
         money += amount;
-        UpdateUI();
-    }
-
-    void UpdateUI()
-    {
-        if (moneyText != null)
-            moneyText.text = "$ " + Mathf.FloorToInt(money).ToString();
+        Debug.Log("Money added: " + amount + ". Total: " + money);
     }
 }

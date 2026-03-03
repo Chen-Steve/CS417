@@ -1,24 +1,41 @@
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
+using UnityEngine.XR.Interaction.Toolkit.Interactables;
 
+[RequireComponent(typeof(XRSimpleInteractable))]
 public class ATMClicker : MonoBehaviour
 {
     public int dollarsPerHit = 1;
     public ResourceBank bank;
 
+    XRSimpleInteractable interactable;
+
+    void Awake()
+    {
+        interactable = GetComponent<XRSimpleInteractable>();
+    }
+
     void OnEnable()
     {
-        GetComponent<UnityEngine.XR.Interaction.Toolkit.Interactables.XRSimpleInteractable>().activated.AddListener(OnActivated);
+        interactable.selectEntered.AddListener(OnSelectEntered);
     }
 
     void OnDisable()
     {
-        GetComponent<UnityEngine.XR.Interaction.Toolkit.Interactables.XRSimpleInteractable>().activated.RemoveListener(OnActivated);
+        interactable.selectEntered.RemoveListener(OnSelectEntered);
     }
 
-    void OnActivated(ActivateEventArgs args)
+    void OnSelectEntered(SelectEnterEventArgs args)
+    {
+        Debug.Log("ATMClicker: selectEntered fired");
+        AddMoney();
+    }
+
+    void AddMoney()
     {
         if (bank != null)
             bank.AddMoney(dollarsPerHit);
+        else
+            Debug.LogWarning("ATMClicker: Bank is not assigned.");
     }
 }
