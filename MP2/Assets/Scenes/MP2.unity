@@ -2771,8 +2771,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85e618409f6859041be773d4b81ad487, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BankBalanceUI
-  bank: {fileID: 0}
-  balanceText: {fileID: 0}
+  bank: {fileID: 1137436181}
+  balanceText: {fileID: 335320580}
 --- !u!1001 &909427616
 PrefabInstance:
   m_ObjectHideFlags: 0
