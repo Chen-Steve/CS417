@@ -14,6 +14,6 @@ A cozy restaurant sim run by friendly goblins! Manage your restaurant by cooking
 
 # Resources
 ## Audio
-ATM ‘kaching’: https://pixabay.com/sound-effects/film-special-effects-cash-register-kaching-376867/
-Purchase cooking station: https://pixabay.com/sound-effects/film-special-effects-purchase-success-384963/
-Background music: https://pixabay.com/sound-effects/musical-game-music-loop-7-145285/
+ATM ‘kaching’: https://pixabay.com/sound-effects/film-special-effects-cash-register-kaching-376867/ <br/>
+Purchase cooking station: https://pixabay.com/sound-effects/film-special-effects-purchase-success-384963/ <br/>
+Background music: https://pixabay.com/sound-effects/musical-game-music-loop-7-145285/ <br/>
