@@ -1,5 +1,5 @@
 # MP 2: Minimal Sim
-Game name: Goblin Gourmet (?)
+## Game name: Goblin Gourmet (?)
 
 Team 3
 
