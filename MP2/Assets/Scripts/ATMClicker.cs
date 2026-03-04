@@ -8,6 +8,10 @@ public class ATMClicker : MonoBehaviour
     public int dollarsPerHit = 1;
     public ResourceBank bank;
 
+    public AudioSource audioSource;
+    public AudioClip clip;
+    public float volume=0.5f;
+
     XRSimpleInteractable interactable;
 
     void Awake()
@@ -39,5 +43,8 @@ public class ATMClicker : MonoBehaviour
         }
         else
             Debug.LogWarning("ATMClicker: Bank is not assigned.");
+        
+        // play SFX for each add-money click
+        audioSource.PlayOneShot(clip, volume);
     }
 }

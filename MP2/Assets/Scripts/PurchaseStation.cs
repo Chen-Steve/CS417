@@ -13,7 +13,14 @@ public class PurchaseStation : MonoBehaviour
 
     [Header("Visual Feedback")]
     public Renderer buttonRenderer;
-    public Color purchasedColor = Color.green;
+
+    public Color lockedColor = Color.red;
+    public Color affordableColor = Color.green;
+    public Color purchasedColor = Color.gray;
+
+    public AudioSource audioSource;
+    public AudioClip clip;
+    public float volume=0.5f;
 
     bool purchased = false;
 
@@ -34,6 +41,32 @@ public class PurchaseStation : MonoBehaviour
         interactable.selectEntered.RemoveListener(OnPressed);
     }
 
+    void Update()
+    {
+        UpdateVisualState();
+    }
+
+    void UpdateVisualState()
+    {
+        if (buttonRenderer == null)
+            return;
+
+        if (purchased)
+        {
+            buttonRenderer.material.color = purchasedColor;
+            return;
+        }
+
+        if (bank != null && bank.money >= cost)
+        {
+            buttonRenderer.material.color = affordableColor;
+        }
+        else
+        {
+            buttonRenderer.material.color = lockedColor;
+        }
+    }
+
     void OnPressed(SelectEnterEventArgs args)
     {
         if (purchased)
@@ -51,11 +84,6 @@ public class PurchaseStation : MonoBehaviour
             stationToEnable.SetActive(true);
             purchased = true;
 
-            // Change color (doesn't seem to work)
-            if (buttonRenderer != null)
-                buttonRenderer.material.color = purchasedColor;
-
-            // Disable interaction
             interactable.enabled = false;
 
             Debug.Log("Station purchased!");
@@ -64,5 +92,8 @@ public class PurchaseStation : MonoBehaviour
         {
             Debug.Log("Not enough money.");
         }
+
+        // play SFX when buying/upgrading station
+        audioSource.PlayOneShot(clip, volume);
     }
 }
