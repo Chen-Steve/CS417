@@ -33,8 +33,10 @@ public class ATMClicker : MonoBehaviour
 
     void AddMoney()
     {
-        if (bank != null)
+        if (bank != null) {
+            Debug.Log("Adding money to bank: " + bank.name);
             bank.AddMoney(dollarsPerHit);
+        }
         else
             Debug.LogWarning("ATMClicker: Bank is not assigned.");
     }
