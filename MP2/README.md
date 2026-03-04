@@ -13,7 +13,7 @@ This is a VR game created on Unity 6.3 and tested on the Meta Quest 3.<br/>
 A cozy restaurant sim run by friendly goblins! Manage your restaurant by cooking delicious food, upgrading your kitchen, and serving happy customers!<br/>
 
 # Resources
-## Audio
+Audio
 ATM ‘kaching’: https://pixabay.com/sound-effects/film-special-effects-cash-register-kaching-376867/ <br/>
 Purchase cooking station: https://pixabay.com/sound-effects/film-special-effects-purchase-success-384963/ <br/>
 Background music: https://pixabay.com/sound-effects/musical-game-music-loop-7-145285/ <br/>
