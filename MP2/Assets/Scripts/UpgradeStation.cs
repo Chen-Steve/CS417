@@ -3,18 +3,19 @@ using TMPro;
 using UnityEngine.XR.Interaction.Toolkit;
 using UnityEngine.XR.Interaction.Toolkit.Interactables;
 
-[RequireComponent(typeof(XRSimpleInteractable))]
+// [RequireComponent(typeof(XRSimpleInteractable))]
 public class UpgradeStation : MonoBehaviour
 {
     public ResourceBank bank;
 
     [Header("Upgrade Settings")]
     public StationGenerator stationToUpgrade;
+    public XRSimpleInteractable upgradeButton;
     public float startingCost = 1f;
     public float costMultiplier = 1.5f;
     public float rateMultiplier = 1.5f;
 
-    [Header("Per-Station Starting Costs")]
+    [Header("Station Starting Costs")]
     public float hotDogStartingCost = 5f;
     public float friesStartingCost = 10f;
     public float sandwichStartingCost = 20f;
@@ -23,25 +24,24 @@ public class UpgradeStation : MonoBehaviour
     [Header("Visual Feedback")]
     public Renderer buttonRenderer;
     public TMP_Text costText;
-    private string costLabel = "Upgrade Grill Station";
-
+    public TMP_Text cooldownText;
     public Color lockedColor = Color.red;
     public Color affordableColor = Color.green;
-    public Color upgradedColor = Color.gray;
+    public Color cooldownColor = Color.gray;
 
+    [Header("Cooldown")]
+    public float cooldownSeconds = 3f;
     public AudioSource audioSource;
     public AudioClip clip;
     public float volume = 0.5f;
 
-    public int upgradeLevel;
-
-    float currentCost;
-
-    XRSimpleInteractable interactable;
+    private int upgradeLevel;
+    private float currentCost;
+    private float cooldownRemaining;
 
     void Awake()
     {
-        interactable = GetComponent<XRSimpleInteractable>();
+        upgradeButton = GetComponent<XRSimpleInteractable>();
         currentCost = Mathf.Max(0f, GetInitialCost());
         UpdateCostText();
     }
@@ -68,17 +68,42 @@ public class UpgradeStation : MonoBehaviour
 
     void OnEnable()
     {
-        interactable.selectEntered.AddListener(OnPressed);
+        upgradeButton.selectEntered.AddListener(OnPressed);
+        RefreshButtonState();
+        UpdateCooldownText();
     }
 
     void OnDisable()
     {
-        interactable.selectEntered.RemoveListener(OnPressed);
+        upgradeButton.selectEntered.RemoveListener(OnPressed);
     }
 
     void Update()
     {
+        TickCooldown();
+        RefreshButtonState();
         UpdateVisualState();
+        UpdateCooldownText();
+    }
+
+    void TickCooldown()
+    {
+        if (cooldownRemaining <= 0f)
+            return;
+
+        cooldownRemaining -= Time.deltaTime;
+
+        if (cooldownRemaining < 0f)
+            cooldownRemaining = 0f;
+    }
+
+    void RefreshButtonState()
+    {
+        if (upgradeButton == null)
+            return;
+
+        bool stationReady = stationToUpgrade != null && stationToUpgrade.gameObject.activeInHierarchy;
+        upgradeButton.enabled = stationReady && cooldownRemaining <= 0f;
     }
 
     void UpdateVisualState()
@@ -86,9 +111,15 @@ public class UpgradeStation : MonoBehaviour
         if (buttonRenderer == null)
             return;
 
+        if (cooldownRemaining > 0f)
+        {
+            buttonRenderer.material.color = cooldownColor;
+            return;
+        }
+
         if (!(stationToUpgrade != null && stationToUpgrade.gameObject.activeInHierarchy))
         {
-            buttonRenderer.material.color = upgradedColor;
+            buttonRenderer.material.color = lockedColor;
             return;
         }
 
@@ -102,12 +133,43 @@ public class UpgradeStation : MonoBehaviour
         }
     }
 
+    void UpdateCooldownText()
+    {
+        if (cooldownText != null)
+        {
+            if (cooldownRemaining > 0f)
+            {
+                int secondsLeft = Mathf.CeilToInt(cooldownRemaining);
+                cooldownText.text = $"Cooldown: {secondsLeft}s";
+            }
+            else
+            {
+                cooldownText.text = string.Empty;
+            }
+
+            return;
+        }
+
+        if (costText == null)
+            return;
+
+        if (cooldownRemaining > 0f)
+        {
+            int secondsLeft = Mathf.CeilToInt(cooldownRemaining);
+            costText.text = $"Cooldown: {secondsLeft}s";
+        }
+        else
+        {
+            UpdateCostText();
+        }
+    }
+
     void UpdateCostText()
     {
         if (costText == null)
             return;
 
-        costText.text = $"{costLabel}: ${currentCost:0.##}";
+        costText.text = $"Upgrade Grill Station: ${currentCost:0.##}";
     }
 
     void OnPressed(SelectEnterEventArgs args)
@@ -118,30 +180,6 @@ public class UpgradeStation : MonoBehaviour
             return;
         }
 
-        if (stationToUpgrade == null)
-        {
-            Debug.LogWarning("Station to upgrade not assigned.");
-            return;
-        }
-
-        if (!(stationToUpgrade != null && stationToUpgrade.gameObject.activeInHierarchy))
-        {
-            Debug.Log("Station not purchased yet.");
-            return;
-        }
-
-        if (rateMultiplier <= 1f)
-        {
-            Debug.LogWarning("Rate multiplier must be greater than 1.");
-            return;
-        }
-
-        if (costMultiplier <= 1f)
-        {
-            Debug.LogWarning("Cost multiplier must be greater than 1.");
-            return;
-        }
-
         if (bank.money >= currentCost)
         {
             bank.money -= currentCost;
@@ -149,6 +187,7 @@ public class UpgradeStation : MonoBehaviour
             upgradeLevel++;
             currentCost *= costMultiplier;
             UpdateCostText();
+            cooldownRemaining = Mathf.Max(0f, cooldownSeconds);
 
             Debug.Log($"Station upgraded to level {upgradeLevel}. Next cost: {currentCost:0.##}");
 
@@ -161,5 +200,8 @@ public class UpgradeStation : MonoBehaviour
         {
             Debug.Log("Not enough money.");
         }
+
+        RefreshButtonState();
+        UpdateCooldownText();
     }
 }
