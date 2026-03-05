@@ -12,7 +12,16 @@ Group Members:
 This is a VR game created on Unity 6.3 and tested on the Meta Quest 3.<br/>
 A cozy restaurant sim run by friendly goblins! Manage your restaurant by cooking delicious food, upgrading your kitchen, and serving happy customers!<br/>
 
-# Resources
+# Credits
+Models <br/>
+Kitchen asset pack: https://assetstore.unity.com/packages/3d/props/food/pandazole-kitchen-food-low-poly-pack-204525 <br/>
+Goblin chefs: https://assetstore.unity.com/packages/3d/characters/creatures/lowpo-low-poly-goblin-pack-332200 <br/>
+Office desk area: https://assetstore.unity.com/packages/3d/props/interior/office-pack-free-258600 <br/>
+ATM: ? <br/>
+Signboard: ? <br/>
+Floor material: ? <br/>
+<br/>
+
 Audio <br/>
 ATM ‘kaching’: https://pixabay.com/sound-effects/film-special-effects-cash-register-kaching-376867/ <br/>
 Purchase cooking station: https://pixabay.com/sound-effects/film-special-effects-purchase-success-384963/ <br/>
