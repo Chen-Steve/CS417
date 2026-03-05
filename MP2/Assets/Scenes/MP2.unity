@@ -3787,7 +3787,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::StationGenerator
   bank: {fileID: 1137436181}
   produces: 0
-  foodPerSecond: 1
+  foodPerSecond: 0.2
   spawnPoint: {fileID: 1484622919}
   maxVisualFood: 5
   foodPrefab: {fileID: 385296440}
@@ -4546,7 +4546,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::StationGenerator
   bank: {fileID: 1137436181}
   produces: 2
-  foodPerSecond: 1
+  foodPerSecond: 0.02
   spawnPoint: {fileID: 1248175008}
   maxVisualFood: 5
   foodPrefab: {fileID: 95152283}
@@ -5268,7 +5268,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::StationGenerator
   bank: {fileID: 1137436181}
   produces: 3
-  foodPerSecond: 1
+  foodPerSecond: 0.0125
   spawnPoint: {fileID: 660330619}
   maxVisualFood: 5
   foodPrefab: {fileID: 844513967}
@@ -8055,7 +8055,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::StationGenerator
   bank: {fileID: 1137436181}
   produces: 1
-  foodPerSecond: 1
+  foodPerSecond: 0.05
   spawnPoint: {fileID: 321485294}
   maxVisualFood: 5
   foodPrefab: {fileID: 1692576280}
