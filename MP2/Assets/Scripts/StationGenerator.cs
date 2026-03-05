@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 public class StationGenerator : MonoBehaviour
 {
@@ -18,15 +19,25 @@ public class StationGenerator : MonoBehaviour
     public Transform spawnPoint;
     public int maxVisualFood = 3;
     public GameObject foodPrefab;
+    public float visualLifetime = 15f;
+    public bool replaceOldestVisualWhenFull = true;
 
-    int currentVisualCount = 0;
-    float lastFoodCount;
+    readonly List<GameObject> activeVisuals = new List<GameObject>();
+    float visualSpawnProgress;
+    float lastTrackedFoodAmount;
+    bool hasTrackedFoodAmount;
 
     bool isActive = false;
 
     void OnEnable()
     {
         StartGenerating();
+
+        if (bank != null)
+        {
+            lastTrackedFoodAmount = GetCurrentFoodAmount();
+            hasTrackedFoodAmount = true;
+        }
     }
 
     void StartGenerating()
@@ -34,24 +45,7 @@ public class StationGenerator : MonoBehaviour
         if (bank == null || isActive)
             return;
 
-        switch (produces)
-        {
-            case FoodType.HotDog:
-                bank.hotDogRate += foodPerSecond;
-                break;
-
-            case FoodType.Fries:
-                bank.friesRate += foodPerSecond;
-                break;
-
-            case FoodType.Sandwich:
-                bank.sandwichRate += foodPerSecond;
-                break;
-
-            case FoodType.Lasagna:
-                bank.lasagnaRate += foodPerSecond;
-                break;
-        }
+        ApplyRateDelta(foodPerSecond);
 
         isActive = true;
     }
@@ -61,74 +55,150 @@ public class StationGenerator : MonoBehaviour
         if (bank == null || !isActive)
             return;
 
+        ApplyRateDelta(-foodPerSecond);
+        isActive = false;
+        hasTrackedFoodAmount = false;
+    }
+
+    public void IncreaseProductionRate(float amount)
+    {
+        if (amount <= 0f)
+            return;
+
+        SetProductionRate(foodPerSecond + amount);
+    }
+
+    public void SetProductionRate(float newRate)
+    {
+        float clampedRate = Mathf.Max(0f, newRate);
+
+        if (Mathf.Approximately(clampedRate, foodPerSecond))
+            return;
+
+        if (bank != null && isActive)
+        {
+            float delta = clampedRate - foodPerSecond;
+            ApplyRateDelta(delta);
+        }
+
+        foodPerSecond = clampedRate;
+    }
+
+    public void MultiplyProductionRate(float multiplier)
+    {
+        if (multiplier <= 0f)
+            return;
+
+        SetProductionRate(foodPerSecond * multiplier);
+    }
+
+    void ApplyRateDelta(float delta)
+    {
         switch (produces)
         {
             case FoodType.HotDog:
-                bank.hotDogRate -= foodPerSecond;
+                bank.hotDogRate += delta;
                 break;
 
             case FoodType.Fries:
-                bank.friesRate -= foodPerSecond;
+                bank.friesRate += delta;
                 break;
 
             case FoodType.Sandwich:
-                bank.sandwichRate -= foodPerSecond;
+                bank.sandwichRate += delta;
                 break;
 
             case FoodType.Lasagna:
-                bank.lasagnaRate -= foodPerSecond;
+                bank.lasagnaRate += delta;
                 break;
         }
     }
 
     void Update()
     {
-        if (bank == null) return;
+        if (bank == null || !isActive)
+            return;
 
-        float currentCount = GetCurrentFoodAmount();
+        float currentFoodAmount = GetCurrentFoodAmount();
 
-        if (Mathf.FloorToInt(currentCount) > Mathf.FloorToInt(lastFoodCount))
+        if (!hasTrackedFoodAmount)
         {
-            SpawnFood();
+            lastTrackedFoodAmount = currentFoodAmount;
+            hasTrackedFoodAmount = true;
         }
 
-        lastFoodCount = currentCount;
+        float producedDelta = currentFoodAmount - lastTrackedFoodAmount;
+        lastTrackedFoodAmount = currentFoodAmount;
+
+        if (producedDelta <= 0f)
+            return;
+
+        visualSpawnProgress += producedDelta;
+
+        while (visualSpawnProgress >= 1f)
+        {
+            if (!SpawnFood())
+            {
+                break;
+            }
+
+            visualSpawnProgress -= 1f;
+        }
     }
 
     float GetCurrentFoodAmount()
     {
         switch (produces)
         {
-            case FoodType.HotDog: return bank.hotDogs;
-            case FoodType.Fries: return bank.fries;
-            case FoodType.Sandwich: return bank.sandwiches;
-            case FoodType.Lasagna: return bank.lasagne;
+            case FoodType.HotDog:
+                return bank.hotDogs;
+            case FoodType.Fries:
+                return bank.fries;
+            case FoodType.Sandwich:
+                return bank.sandwiches;
+            case FoodType.Lasagna:
+                return bank.lasagne;
+            default:
+                return 0f;
         }
-
-        return 0f;
     }
 
-    void SpawnFood()
+    bool SpawnFood()
     {
         if (foodPrefab == null || spawnPoint == null)
-            return;
+            return false;
 
-        if (currentVisualCount >= maxVisualFood)
-            return;
+        activeVisuals.RemoveAll(visual => visual == null);
+
+        if (maxVisualFood > 0 && activeVisuals.Count >= maxVisualFood)
+        {
+            if (!replaceOldestVisualWhenFull)
+                return false;
+
+            GameObject oldest = activeVisuals[0];
+            activeVisuals.RemoveAt(0);
+
+            if (oldest != null)
+                Destroy(oldest);
+        }
 
         GameObject food = Instantiate(foodPrefab, spawnPoint.position, spawnPoint.rotation);
-
-        currentVisualCount++;
+        activeVisuals.Add(food);
 
         // when destroyed, reduce counter
-        Destroy(food, 15f);
-        StartCoroutine(DecreaseCountAfterDelay(15f));
+        StartCoroutine(DestroyVisualAfterDelay(food, visualLifetime));
+
+        return true;
     }
 
     // coroutine
-    System.Collections.IEnumerator DecreaseCountAfterDelay(float delay)
+    System.Collections.IEnumerator DestroyVisualAfterDelay(GameObject food, float delay)
     {
         yield return new WaitForSeconds(delay);
-        currentVisualCount--;
+
+        activeVisuals.Remove(food);
+
+        if (food != null)
+            Destroy(food);
     }
 }
