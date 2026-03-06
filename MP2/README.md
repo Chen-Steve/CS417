@@ -20,9 +20,12 @@ Office desk area: https://assetstore.unity.com/packages/3d/props/interior/office
 ATM: https://sketchfab.com/3d-models/atm-36f391fa8e3340419210e26a1edef3cf<br/>
 Signboard: https://assetstore.unity.com/packages/3d/props/exterior/notice-boards-289417 <br/>
 Floor material: https://assetstore.unity.com/packages/2d/textures-materials/wood/yughues-free-wooden-floor-materials-13213 <br/>
+Money bell bag: https://sketchfab.com/3d-models/animal-crossing-new-horizons-bell-bag-4f489f84655d4d1b808d216fee4cba1c#download <br/>
+Balloon: https://sketchfab.com/3d-models/paper-mario-sticker-star-balloon-06a9a2d0e9ba4ea199b75785d703c394#download <br/>
 <br/>
 
 Audio <br/>
 ATM ‘kaching’: https://pixabay.com/sound-effects/film-special-effects-cash-register-kaching-376867/ <br/>
 Purchase cooking station: https://pixabay.com/sound-effects/film-special-effects-purchase-success-384963/ <br/>
 Background music: https://pixabay.com/sound-effects/musical-game-music-loop-7-145285/ <br/>
+Balloon pop: https://pixabay.com/sound-effects/film-special-effects-pop-402324/ <br/>
