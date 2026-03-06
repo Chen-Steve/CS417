@@ -22,6 +22,8 @@ public class PurchaseStation : MonoBehaviour
     public AudioClip clip;
     public float volume=0.5f;
 
+    public TutorialManager tutorial;
+
     bool purchased = false;
 
     XRSimpleInteractable interactable;
@@ -85,6 +87,9 @@ public class PurchaseStation : MonoBehaviour
             purchased = true;
 
             interactable.enabled = false;
+
+            if (tutorial != null)
+                tutorial.OnFirstStationPurchased();
 
             Debug.Log("Station purchased!");
         }
