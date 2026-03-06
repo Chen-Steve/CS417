@@ -1,12 +1,13 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class CustomerWalkerBuyer : MonoBehaviour
 {
     [Header("Movement")]
-    public float moveSpeed = 1.2f;
-    public float arriveDistance = 0.25f;
+    public float arriveDistance = 0.35f;
+    public float rotateSpeed = 720f;
 
     [Header("Buying")]
     public float waitAtStationSeconds = 1.0f;
@@ -14,13 +15,29 @@ public class CustomerWalkerBuyer : MonoBehaviour
 
     ResourceBank bank;
     StationGenerator station;
-    Transform exitPoint;
+    Vector3 exitPoint;
     Action onDespawn;
 
-    enum State { WalkingToStation, Waiting, Leaving }
+    NavMeshAgent agent;
+
+    enum State
+    {
+        WalkingToStation,
+        Waiting,
+        Leaving
+    }
+
     State state;
 
-    public void Init(ResourceBank bank, StationGenerator station, Transform exitPoint, Action onDespawn)
+    void Awake()
+    {
+        agent = GetComponent<NavMeshAgent>();
+
+        if (agent != null)
+            agent.avoidancePriority = UnityEngine.Random.Range(20, 80);
+    }
+
+    public void Init(ResourceBank bank, StationGenerator station, Vector3 exitPoint, Action onDespawn)
     {
         this.bank = bank;
         this.station = station;
@@ -28,32 +45,33 @@ public class CustomerWalkerBuyer : MonoBehaviour
         this.onDespawn = onDespawn;
 
         state = State.WalkingToStation;
+        GoTo(GetStationStopPosition());
     }
 
     void Update()
     {
-        if (bank == null || station == null || exitPoint == null)
+        if (agent == null || bank == null || station == null)
             return;
 
-        if (state == State.WalkingToStation)
+        switch (state)
         {
-            MoveTowards(station.transform.position);
+            case State.WalkingToStation:
+                if (IsArrived())
+                {
+                    state = State.Waiting;
+                    agent.isStopped = true;
+                    Face(station.transform.position);
+                    StartCoroutine(WaitThenBuy());
+                }
+                break;
 
-            if (IsArrived(station.transform.position))
-            {
-                state = State.Waiting;
-                StartCoroutine(WaitThenBuy());
-            }
-        }
-        else if (state == State.Leaving)
-        {
-            MoveTowards(exitPoint.position);
-
-            if (IsArrived(exitPoint.position))
-            {
-                onDespawn?.Invoke();
-                Destroy(gameObject);
-            }
+            case State.Leaving:
+                if (IsArrived())
+                {
+                    onDespawn?.Invoke();
+                    Destroy(gameObject);
+                }
+                break;
         }
     }
 
@@ -61,30 +79,48 @@ public class CustomerWalkerBuyer : MonoBehaviour
     {
         yield return new WaitForSeconds(waitAtStationSeconds);
 
-        bool bought = TryBuyOne(bank, station.produces, dollarsPerPurchase);
+        TryBuyOne(bank, station.produces, dollarsPerPurchase);
 
         state = State.Leaving;
+        agent.isStopped = false;
+        GoTo(exitPoint);
     }
 
-    void MoveTowards(Vector3 target)
+    void GoTo(Vector3 target)
     {
-        Vector3 pos = transform.position;
-        Vector3 next = Vector3.MoveTowards(pos, target, moveSpeed * Time.deltaTime);
-        transform.position = next;
+        agent.stoppingDistance = arriveDistance;
+        agent.SetDestination(target);
+    }
 
-        Vector3 dir = (target - pos);
+    bool IsArrived()
+    {
+        if (agent.pathPending) return false;
+        if (agent.remainingDistance > agent.stoppingDistance) return false;
+        return !agent.hasPath || agent.velocity.sqrMagnitude < 0.01f;
+    }
+
+    Vector3 GetStationStopPosition()
+    {
+        if (station != null && station.customerStandPoint != null)
+            return station.customerStandPoint.position;
+
+        return station.transform.position - station.transform.forward * 0.6f;
+    }
+
+    void Face(Vector3 lookAt)
+    {
+        Vector3 dir = lookAt - transform.position;
         dir.y = 0f;
-        if (dir.sqrMagnitude > 0.0001f)
-            transform.rotation = Quaternion.LookRotation(dir.normalized);
-    }
 
-    bool IsArrived(Vector3 target)
-    {
-        Vector3 a = transform.position;
-        Vector3 b = target;
-        a.y = 0f;
-        b.y = 0f;
-        return Vector3.Distance(a, b) <= arriveDistance;
+        if (dir.sqrMagnitude < 0.0001f)
+            return;
+
+        Quaternion targetRot = Quaternion.LookRotation(dir.normalized);
+        transform.rotation = Quaternion.RotateTowards(
+            transform.rotation,
+            targetRot,
+            rotateSpeed * Time.deltaTime
+        );
     }
 
     static bool TryBuyOne(ResourceBank bank, StationGenerator.FoodType type, float dollars)

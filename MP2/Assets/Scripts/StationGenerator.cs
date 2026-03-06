@@ -21,7 +21,7 @@ public class StationGenerator : MonoBehaviour
     public GameObject foodPrefab;
     public float visualLifetime = 15f;
     public bool replaceOldestVisualWhenFull = true;
-
+    public Transform customerStandPoint;
     readonly List<GameObject> activeVisuals = new List<GameObject>();
     float visualSpawnProgress;
     float lastTrackedFoodAmount;
