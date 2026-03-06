@@ -18,7 +18,7 @@ public class BalloonClickReward : MonoBehaviour
         interactable = GetComponent<XRSimpleInteractable>();
     
         if (bank == null)
-            bank = FindObjectOfType<ResourceBank>();
+            bank = FindFirstObjectByType<ResourceBank>();
     }
 
     void OnEnable()

@@ -13,19 +13,19 @@ public class PurchaseStation : MonoBehaviour
 
     [Header("Visual Feedback")]
     public Renderer buttonRenderer;
-
     public Color lockedColor = Color.red;
     public Color affordableColor = Color.green;
     public Color purchasedColor = Color.gray;
 
+    [Header("Audio")]
     public AudioSource audioSource;
     public AudioClip clip;
-    public float volume=0.5f;
+    public float volume = 0.5f;
 
+    [Header("Tutorial")]
     public TutorialManager tutorial;
 
     bool purchased = false;
-
     XRSimpleInteractable interactable;
 
     void Awake()
@@ -33,14 +33,24 @@ public class PurchaseStation : MonoBehaviour
         interactable = GetComponent<XRSimpleInteractable>();
     }
 
+    void Start()
+    {
+        if (stationToEnable != null)
+            stationToEnable.SetActive(false);
+
+        UpdateVisualState();
+    }
+
     void OnEnable()
     {
-        interactable.selectEntered.AddListener(OnPressed);
+        if (interactable != null)
+            interactable.selectEntered.AddListener(OnPressed);
     }
 
     void OnDisable()
     {
-        interactable.selectEntered.RemoveListener(OnPressed);
+        if (interactable != null)
+            interactable.selectEntered.RemoveListener(OnPressed);
     }
 
     void Update()
@@ -60,13 +70,9 @@ public class PurchaseStation : MonoBehaviour
         }
 
         if (bank != null && bank.money >= cost)
-        {
             buttonRenderer.material.color = affordableColor;
-        }
         else
-        {
             buttonRenderer.material.color = lockedColor;
-        }
     }
 
     void OnPressed(SelectEnterEventArgs args)
@@ -76,29 +82,36 @@ public class PurchaseStation : MonoBehaviour
 
         if (bank == null)
         {
-            Debug.LogWarning("Bank not assigned.");
+            Debug.LogWarning("PurchaseStation: Bank not assigned.");
             return;
         }
 
-        if (bank.money >= cost)
+        if (stationToEnable == null)
         {
-            bank.money -= cost;
-            stationToEnable.SetActive(true);
-            purchased = true;
-
-            interactable.enabled = false;
-
-            if (tutorial != null)
-                tutorial.OnFirstStationPurchased();
-
-            Debug.Log("Station purchased!");
+            Debug.LogWarning("PurchaseStation: stationToEnable not assigned.");
+            return;
         }
-        else
+
+        if (bank.money < cost)
         {
             Debug.Log("Not enough money.");
+            return;
         }
 
-        // play SFX when buying/upgrading station
-        audioSource.PlayOneShot(clip, volume);
+        bank.money -= cost;
+        stationToEnable.SetActive(true);
+        purchased = true;
+
+        if (tutorial != null)
+            tutorial.OnFirstStationPurchased();
+
+        if (audioSource != null && clip != null)
+            audioSource.PlayOneShot(clip, volume);
+
+        interactable.enabled = false;
+
+        UpdateVisualState();
+
+        Debug.Log("Station purchased!");
     }
 }

@@ -10,7 +10,6 @@ public class TutorialManager : MonoBehaviour
     public TMP_Text tutorialText;
 
     int stage = 0;
-
     bool waitingForStationPurchase = false;
 
     void Start()
@@ -20,7 +19,7 @@ public class TutorialManager : MonoBehaviour
 
     void Update()
     {
-        if (stage == 1 && bank.money >= 10)
+        if (stage == 1 && bank != null && bank.money >= 10f)
         {
             ShowPopup2();
         }
@@ -28,9 +27,10 @@ public class TutorialManager : MonoBehaviour
 
     public void ClosePopup()
     {
-        tutorialPanel.SetActive(false);
+        if (tutorialPanel != null)
+            tutorialPanel.SetActive(false);
 
-        if (stage == 2)
+        if (stage == 3)
         {
             ShowPopup4();
         }
@@ -40,45 +40,66 @@ public class TutorialManager : MonoBehaviour
     {
         stage = 1;
 
-        tutorialPanel.SetActive(true);
+        if (tutorialPanel != null)
+            tutorialPanel.SetActive(true);
 
-        tutorialText.text =
-        "Welcome to Goblin Gourmet!\n\n" +
-        "Help run a restaurant with friendly goblins and make your restaurant famous!\n\n" +
-        "First, we need funding; click on the ATM to earn some money.";
+        if (tutorialText != null)
+        {
+            tutorialText.text =
+                "Welcome to Goblin Gourmet!\n\n" +
+                "Help run a restaurant with friendly goblins and make your restaurant famous!\n\n" +
+                "First, we need funding; click on the ATM to earn some money.";
+        }
     }
 
     void ShowPopup2()
     {
         stage = 2;
+        waitingForStationPurchase = true;
 
-        tutorialPanel.SetActive(true);
+        if (tutorialPanel != null)
+            tutorialPanel.SetActive(true);
 
-        tutorialText.text =
-        "Great! Now we have enough for our first cooking station.\n\n" +
-        "Go over to the signboard and click the green button to buy it.";
+        if (tutorialText != null)
+        {
+            tutorialText.text =
+                "Great! Now we have enough for our first cooking station.\n\n" +
+                "Go over to the signboard and click the green button to buy it.";
+        }
     }
 
     public void OnFirstStationPurchased()
     {
-        if (stage != 2) return;
+        if (!waitingForStationPurchase)
+            return;
 
-        tutorialPanel.SetActive(true);
+        waitingForStationPurchase = false;
+        stage = 3;
 
-        tutorialText.text =
-        "Nice! Your goblin chef will keep cooking at this station, and customers will be drawn in when the food is cooked, earning you more money!\n\n" +
-        "To speed up the chef's cooking, you can upgrade the station.";
+        if (tutorialPanel != null)
+            tutorialPanel.SetActive(true);
+
+        if (tutorialText != null)
+        {
+            tutorialText.text =
+                "Nice! Your goblin chef will keep cooking at this station, and customers will be drawn in when the food is cooked, earning you more money!\n\n" +
+                "To speed up the chef's cooking, you can upgrade the station.";
+        }
     }
 
     void ShowPopup4()
     {
         stage = 4;
 
-        tutorialPanel.SetActive(true);
+        if (tutorialPanel != null)
+            tutorialPanel.SetActive(true);
 
-        tutorialText.text =
-        "Congratulations, you are on the way to becoming an aspiring restaurant owner!\n\n" +
-        "If you make enough food, your achievements will be recognized at the large table.\n\n" +
-        "Happy cooking!";
+        if (tutorialText != null)
+        {
+            tutorialText.text =
+                "Congratulations, you are on the way to becoming an aspiring restaurant owner!\n\n" +
+                "If you make enough food, your achievements will be recognized at the large table.\n\n" +
+                "Happy cooking!";
+        }
     }
 }
