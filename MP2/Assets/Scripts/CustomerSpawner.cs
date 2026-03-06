@@ -58,16 +58,24 @@ public class CustomerSpawner : MonoBehaviour
 
     StationGenerator PickStationWithStock()
     {
+
+        var valid = new System.Collections.Generic.List<StationGenerator>();
+
         for (int i = 0; i < stations.Length; i++)
         {
             var s = stations[i];
             if (s == null) continue;
 
+            if (!s.gameObject.activeInHierarchy) continue;
+
             if (HasAtLeastOne(bank, s.produces))
-                return s;
+                valid.Add(s);
         }
 
-        return null;
+        if (valid.Count == 0)
+            return null;
+
+        return valid[Random.Range(0, valid.Count)];
     }
 
     static bool HasAtLeastOne(ResourceBank bank, StationGenerator.FoodType type)
