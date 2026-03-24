@@ -716,7 +716,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 594ee9d9aa2374e92a2c1012a96c03f0, type: 2}
+  - {fileID: 2100000, guid: 5c0de40c69f48b14eb67d6190333581f, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1673,7 +1673,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 594ee9d9aa2374e92a2c1012a96c03f0, type: 2}
+  - {fileID: 2100000, guid: 5c0de40c69f48b14eb67d6190333581f, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1804,12 +1804,43 @@ Transform:
   m_GameObject: {fileID: 173506821}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: -1.93, y: -1.56, z: -1.88}
+  m_LocalPosition: {x: -1.59, y: -1.56, z: -1.88}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 795962581}
   m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
+--- !u!1 &206025563
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 206025564}
+  m_Layer: 0
+  m_Name: ParticleSpawnPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &206025564
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 206025563}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 3.44, y: 1.19704, z: -1.2660301}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 910224427}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &212994265
 GameObject:
   m_ObjectHideFlags: 0
@@ -1876,7 +1907,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 594ee9d9aa2374e92a2c1012a96c03f0, type: 2}
+  - {fileID: 2100000, guid: 5c0de40c69f48b14eb67d6190333581f, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2045,7 +2076,7 @@ Transform:
   m_GameObject: {fileID: 243677847}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
-  m_LocalPosition: {x: 3.34, y: 0, z: 2.83}
+  m_LocalPosition: {x: 3.34, y: 0, z: 3.48}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2272,7 +2303,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 594ee9d9aa2374e92a2c1012a96c03f0, type: 2}
+  - {fileID: 2100000, guid: 5c0de40c69f48b14eb67d6190333581f, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2462,7 +2493,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 594ee9d9aa2374e92a2c1012a96c03f0, type: 2}
+  - {fileID: 2100000, guid: 5c0de40c69f48b14eb67d6190333581f, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -3999,6 +4030,8 @@ MonoBehaviour:
   bank: {fileID: 1137436181}
   stationToEnable: {fileID: 910224426}
   cost: 40
+  particleSpawnPoint: {fileID: 206025564}
+  purchaseParticlesPrefab: {fileID: 4987179544982308164, guid: f6db8537efa656341ad5ee26521e5abe, type: 3}
   buttonRenderer: {fileID: 419427409}
   lockedColor: {r: 1, g: 0, b: 0, a: 1}
   affordableColor: {r: 0, g: 1, b: 0, a: 1}
@@ -4007,6 +4040,8 @@ MonoBehaviour:
   clip: {fileID: 8300000, guid: 579ab30bd13f74afa8663da4375de305, type: 3}
   volume: 0.5
   tutorial: {fileID: 756981389}
+  scaleDuration: 0.3
+  overshootAmount: 1.1
 --- !u!114 &419427412
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5406,7 +5441,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 594ee9d9aa2374e92a2c1012a96c03f0, type: 2}
+  - {fileID: 2100000, guid: 5c0de40c69f48b14eb67d6190333581f, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -6903,6 +6938,7 @@ Transform:
   - {fileID: 307035737}
   - {fileID: 1484622919}
   - {fileID: 173506822}
+  - {fileID: 1637196626}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!82 &795962582
@@ -7089,7 +7125,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 594ee9d9aa2374e92a2c1012a96c03f0, type: 2}
+  - {fileID: 2100000, guid: 5c0de40c69f48b14eb67d6190333581f, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -8200,6 +8236,7 @@ Transform:
   - {fileID: 254745706}
   - {fileID: 95152282}
   - {fileID: 1248175008}
+  - {fileID: 206025564}
   - {fileID: 1951427946}
   - {fileID: 243283802}
   m_Father: {fileID: 0}
@@ -9051,7 +9088,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 594ee9d9aa2374e92a2c1012a96c03f0, type: 2}
+  - {fileID: 2100000, guid: 5c0de40c69f48b14eb67d6190333581f, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -9289,7 +9326,7 @@ Transform:
   m_GameObject: {fileID: 1074061863}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
-  m_LocalPosition: {x: -0.44, y: 0, z: 4.44}
+  m_LocalPosition: {x: -1.29, y: 0, z: 3.94}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -9418,7 +9455,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 594ee9d9aa2374e92a2c1012a96c03f0, type: 2}
+  - {fileID: 2100000, guid: 5c0de40c69f48b14eb67d6190333581f, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -9465,6 +9502,37 @@ Transform:
   m_Children: []
   m_Father: {fileID: 509117876}
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 270}
+--- !u!1 &1091614815
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1091614816}
+  m_Layer: 0
+  m_Name: ParticleSpawnPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1091614816
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1091614815}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -1.6130002, y: -0.22915006, z: 2.19}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1810193929}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1108430604
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9700,6 +9768,7 @@ Transform:
   - {fileID: 1979037016}
   - {fileID: 660330619}
   - {fileID: 243677848}
+  - {fileID: 1648875750}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!82 &1118171127
@@ -11651,6 +11720,8 @@ MonoBehaviour:
   bank: {fileID: 1137436181}
   stationToEnable: {fileID: 795962580}
   cost: 10
+  particleSpawnPoint: {fileID: 1484622919}
+  purchaseParticlesPrefab: {fileID: 4987179544982308164, guid: f6db8537efa656341ad5ee26521e5abe, type: 3}
   buttonRenderer: {fileID: 1386592208}
   lockedColor: {r: 1, g: 0, b: 0, a: 1}
   affordableColor: {r: 0, g: 1, b: 0, a: 1}
@@ -11659,6 +11730,8 @@ MonoBehaviour:
   clip: {fileID: 8300000, guid: 579ab30bd13f74afa8663da4375de305, type: 3}
   volume: 0.5
   tutorial: {fileID: 756981389}
+  scaleDuration: 0.3
+  overshootAmount: 1.1
 --- !u!114 &1386592211
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12426,7 +12499,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 594ee9d9aa2374e92a2c1012a96c03f0, type: 2}
+  - {fileID: 2100000, guid: 5c0de40c69f48b14eb67d6190333581f, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -13574,6 +13647,8 @@ MonoBehaviour:
   bank: {fileID: 1137436181}
   stationToEnable: {fileID: 1118171125}
   cost: 80
+  particleSpawnPoint: {fileID: 1648875750}
+  purchaseParticlesPrefab: {fileID: 4987179544982308164, guid: f6db8537efa656341ad5ee26521e5abe, type: 3}
   buttonRenderer: {fileID: 1550321726}
   lockedColor: {r: 1, g: 0, b: 0, a: 1}
   affordableColor: {r: 0, g: 1, b: 0, a: 1}
@@ -13582,6 +13657,8 @@ MonoBehaviour:
   clip: {fileID: 8300000, guid: 579ab30bd13f74afa8663da4375de305, type: 3}
   volume: 0.5
   tutorial: {fileID: 756981389}
+  scaleDuration: 0.3
+  overshootAmount: 1.1
 --- !u!114 &1550321729
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13877,6 +13954,37 @@ Transform:
   - {fileID: 66071921}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1637196625
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1637196626}
+  m_Layer: 0
+  m_Name: ParticleSpawnPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1637196626
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1637196625}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -1.773, y: -0.286, z: -0.172}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 795962581}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1637353439
 GameObject:
   m_ObjectHideFlags: 0
@@ -13972,6 +14080,37 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8774518681770342728, guid: 3196676de71803b4d983ac4a64e2b0bf, type: 3}
   m_PrefabInstance: {fileID: 1645726407}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1648875749
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1648875750}
+  m_Layer: 0
+  m_Name: ParticleSpawnPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1648875750
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1648875749}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 3.25, y: 1.19704, z: 1.33}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1118171126}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &1651243939 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1455546441878021151, guid: 2c6803eaefbe99844936e0fdb90f45b0, type: 3}
@@ -14718,6 +14857,7 @@ Transform:
   - {fileID: 1692576281}
   - {fileID: 321485294}
   - {fileID: 1074061864}
+  - {fileID: 1091614816}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!82 &1810193930
@@ -15265,7 +15405,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 594ee9d9aa2374e92a2c1012a96c03f0, type: 2}
+  - {fileID: 2100000, guid: 5c0de40c69f48b14eb67d6190333581f, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -15428,6 +15568,8 @@ MonoBehaviour:
   bank: {fileID: 1137436181}
   stationToEnable: {fileID: 1810193928}
   cost: 20
+  particleSpawnPoint: {fileID: 1091614816}
+  purchaseParticlesPrefab: {fileID: 4987179544982308164, guid: f6db8537efa656341ad5ee26521e5abe, type: 3}
   buttonRenderer: {fileID: 1924864517}
   lockedColor: {r: 1, g: 0, b: 0, a: 1}
   affordableColor: {r: 0, g: 1, b: 0, a: 1}
@@ -15436,6 +15578,8 @@ MonoBehaviour:
   clip: {fileID: 8300000, guid: 579ab30bd13f74afa8663da4375de305, type: 3}
   volume: 0.5
   tutorial: {fileID: 756981389}
+  scaleDuration: 0.3
+  overshootAmount: 1.1
 --- !u!114 &1924864520
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15646,7 +15790,7 @@ Transform:
   m_GameObject: {fileID: 1951427945}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.36, y: 0, z: -3.86}
+  m_LocalPosition: {x: 3.24, y: 0, z: -3.24}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -16629,8 +16773,8 @@ SceneRoots:
   - {fileID: 24813479}
   - {fileID: 795962581}
   - {fileID: 1810193929}
-  - {fileID: 910224427}
   - {fileID: 1118171126}
+  - {fileID: 910224427}
   - {fileID: 343408545}
   - {fileID: 731423685}
   - {fileID: 745182987}
