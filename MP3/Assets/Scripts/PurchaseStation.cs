@@ -12,9 +12,8 @@ public class PurchaseStation : MonoBehaviour
     public GameObject stationToEnable;
     public float cost = 50f;
 
-    [Header("Particle Spawn (set this on the station)")]
-    public Transform particleSpawnPoint;
-    public ParticleSystem purchaseParticlesPrefab;
+    [Header("Particles (placed in scene under station)")]
+    public ParticleSystem purchaseParticles;
 
     [Header("Visual Feedback")]
     public Renderer buttonRenderer;
@@ -31,8 +30,8 @@ public class PurchaseStation : MonoBehaviour
     public TutorialManager tutorial;
 
     [Header("Animation")]
-    public float scaleDuration = 2f;
-    public float overshootAmount = 1.1f;
+    public float scaleDuration = 1.8f;   // slower for visibility
+    public float overshootAmount = 1.1f; // set to 1 for no bounce
 
     bool purchased = false;
     XRSimpleInteractable interactable;
@@ -47,7 +46,7 @@ public class PurchaseStation : MonoBehaviour
         if (stationToEnable != null)
         {
             stationToEnable.SetActive(false);
-            stationToEnable.transform.localScale = Vector3.one * 0.1f;
+            stationToEnable.transform.localScale = Vector3.one * 0.1f; // small start
         }
 
         UpdateVisualState();
@@ -102,10 +101,8 @@ public class PurchaseStation : MonoBehaviour
 
         stationToEnable.SetActive(true);
 
-        // animation
         StartCoroutine(ScaleIn(stationToEnable));
 
-        // particles
         SpawnParticles();
 
         purchased = true;
@@ -123,36 +120,26 @@ public class PurchaseStation : MonoBehaviour
 
     void SpawnParticles()
     {
-        if (purchaseParticlesPrefab == null || particleSpawnPoint == null)
+        if (purchaseParticles == null)
             return;
 
-        // EXACT position + rotation of spawn point
-        ParticleSystem ps = Instantiate(
-            purchaseParticlesPrefab,
-            particleSpawnPoint.position,
-            particleSpawnPoint.rotation
-        );
-
-        ps.Play();
-
-        float lifetime = ps.main.duration + ps.main.startLifetime.constantMax;
-        Destroy(ps.gameObject, lifetime);
+        purchaseParticles.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+        purchaseParticles.Play();
     }
 
     IEnumerator ScaleIn(GameObject target)
     {
         float time = 0f;
 
-        Vector3 start = Vector3.zero;
+        Vector3 start = Vector3.one * 0.1f;
         Vector3 end = Vector3.one;
-
-        target.transform.localScale = start;
 
         while (time < scaleDuration)
         {
             time += Time.deltaTime;
             float t = time / scaleDuration;
 
+            // smooth easing
             t = Mathf.SmoothStep(0f, 1f, t);
 
             Vector3 scale;
