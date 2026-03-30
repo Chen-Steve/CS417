@@ -1,7 +1,7 @@
 using UnityEngine;
 
 public class ResourceBank : MonoBehaviour
-{
+{    
     [Header("Money")]
     public float money;
 
@@ -17,9 +17,14 @@ public class ResourceBank : MonoBehaviour
     public float sandwichRate;
     public float lasagnaRate;
 
+    [Header("Food Totals")]
+    public float totalHotDogs;
+    public float totalFries;
+    public float totalSandwiches;
+    public float totalLasagna;
+
     public float totalFood =>
         hotDogs + fries + sandwiches + lasagne;
-
     void Update()
     {
         float dt = Time.deltaTime;
@@ -28,6 +33,11 @@ public class ResourceBank : MonoBehaviour
         fries += friesRate * dt;
         sandwiches += sandwichRate * dt;
         lasagne += lasagnaRate * dt;
+
+        totalHotDogs += hotDogRate * dt;
+        totalFries += friesRate * dt;
+        totalSandwiches += sandwichRate * dt;
+        totalLasagna += lasagnaRate * dt;
     }
 
     public void AddMoney(float amount)

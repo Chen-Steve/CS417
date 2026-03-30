@@ -16,6 +16,12 @@ public class TrophyUnlocks : MonoBehaviour
     public float sandwichGoal = 5f;
     public float lasagnaGoal = 5f;
 
+    [Header("Particles (placed in scene under trophies)")]
+    public ParticleSystem hotDogParticles;
+    public ParticleSystem friesParticles;
+    public ParticleSystem sandwichParticles;
+    public ParticleSystem lasagnaParticles;
+
     void Start()
     {
     }
@@ -25,17 +31,29 @@ public class TrophyUnlocks : MonoBehaviour
         if (bank == null)
             return;
 
-        if (bank.hotDogs >= hotDogGoal)
+        if (bank.totalHotDogs >= hotDogGoal && !IsTrophyActive(hotDogTrophy))
+        {
             SetTrophyActive(hotDogTrophy);
+            SpawnParticles(hotDogParticles);
+        }
 
-        if (bank.fries >= friesGoal)
+        if (bank.totalFries >= friesGoal && !IsTrophyActive(friesTrophy))
+        {
             SetTrophyActive(friesTrophy);
+            SpawnParticles(friesParticles);
+        }
 
-        if (bank.sandwiches >= sandwichGoal)
+        if (bank.totalSandwiches >= sandwichGoal && !IsTrophyActive(sandwichTrophy))
+        {
             SetTrophyActive(sandwichTrophy);
+            SpawnParticles(sandwichParticles);
+        }
 
-        if (bank.lasagne >= lasagnaGoal)
+        if (bank.totalLasagna >= lasagnaGoal && !IsTrophyActive(lasagnaTrophy))
+        {
             SetTrophyActive(lasagnaTrophy);
+            SpawnParticles(lasagnaParticles);
+        }
     }
 
     void SetTrophyActive(GameObject trophy)
@@ -44,5 +62,19 @@ public class TrophyUnlocks : MonoBehaviour
             return;
 
         trophy.SetActive(true);
+    }
+
+    bool IsTrophyActive(GameObject trophy)
+    {
+        return trophy != null && trophy.activeSelf;
+    }
+
+    void SpawnParticles(ParticleSystem particles)
+    {
+        if (particles == null)
+            return;
+
+        particles.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+        particles.Play();
     }
 }
