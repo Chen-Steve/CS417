@@ -187,6 +187,7 @@ MonoBehaviour:
   audioSource: {fileID: 795962582}
   clip: {fileID: 8300000, guid: 579ab30bd13f74afa8663da4375de305, type: 3}
   volume: 0.5
+  upgradeParticles: {fileID: 1303964757}
 --- !u!114 &3785438
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7167,7 +7168,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &795962581
 Transform:
   m_ObjectHideFlags: 0
@@ -7544,6 +7545,7 @@ MonoBehaviour:
   audioSource: {fileID: 1118171127}
   clip: {fileID: 8300000, guid: 579ab30bd13f74afa8663da4375de305, type: 3}
   volume: 0.5
+  upgradeParticles: {fileID: 1949095059}
 --- !u!114 &833799121
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11355,6 +11357,7 @@ MonoBehaviour:
   audioSource: {fileID: 910224428}
   clip: {fileID: 8300000, guid: 579ab30bd13f74afa8663da4375de305, type: 3}
   volume: 0.5
+  upgradeParticles: {fileID: 583445684}
 --- !u!114 &1303269026
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12685,6 +12688,7 @@ MonoBehaviour:
   audioSource: {fileID: 1810193930}
   clip: {fileID: 8300000, guid: 579ab30bd13f74afa8663da4375de305, type: 3}
   volume: 0.5
+  upgradeParticles: {fileID: 1213374288}
 --- !u!114 &1408867255
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -4,7 +4,6 @@ using TMPro;
 using UnityEngine.XR.Interaction.Toolkit;
 using UnityEngine.XR.Interaction.Toolkit.Interactables;
 
-// [RequireComponent(typeof(XRSimpleInteractable))]
 public class UpgradeStation : MonoBehaviour
 {
     public ResourceBank bank;
@@ -36,6 +35,9 @@ public class UpgradeStation : MonoBehaviour
     public AudioClip clip;
     public float volume = 0.5f;
 
+    [Header("Particles (placed in scene)")]
+    public ParticleSystem upgradeParticles;
+
     [Header("Text Pulse")]
     int pulseCount = 3;
     float pulseDuration = 0.5f;
@@ -53,11 +55,13 @@ public class UpgradeStation : MonoBehaviour
     {
         upgradeButton = GetComponent<XRSimpleInteractable>();
         currentCost = Mathf.Max(0f, GetInitialCost());
+
         if (costText != null)
         {
             textOriginalColor = costText.color;
             textOriginalSize = costText.fontSize;
         }
+
         UpdateCostText();
     }
 
@@ -68,16 +72,11 @@ public class UpgradeStation : MonoBehaviour
 
         switch (stationToUpgrade.produces)
         {
-            case StationGenerator.FoodType.HotDog:
-                return hotDogStartingCost;
-            case StationGenerator.FoodType.Fries:
-                return friesStartingCost;
-            case StationGenerator.FoodType.Sandwich:
-                return sandwichStartingCost;
-            case StationGenerator.FoodType.Lasagna:
-                return lasagnaStartingCost;
-            default:
-                return startingCost;
+            case StationGenerator.FoodType.HotDog: return hotDogStartingCost;
+            case StationGenerator.FoodType.Fries: return friesStartingCost;
+            case StationGenerator.FoodType.Sandwich: return sandwichStartingCost;
+            case StationGenerator.FoodType.Lasagna: return lasagnaStartingCost;
+            default: return startingCost;
         }
     }
 
@@ -139,13 +138,9 @@ public class UpgradeStation : MonoBehaviour
         }
 
         if (bank != null && bank.money >= currentCost)
-        {
             buttonRenderer.material.color = affordableColor;
-        }
         else
-        {
             buttonRenderer.material.color = lockedColor;
-        }
     }
 
     void UpdateCooldownText()
@@ -161,7 +156,6 @@ public class UpgradeStation : MonoBehaviour
             {
                 cooldownText.text = string.Empty;
             }
-
             return;
         }
 
@@ -199,6 +193,10 @@ public class UpgradeStation : MonoBehaviour
         {
             bank.money -= currentCost;
             stationToUpgrade.MultiplyProductionRate(rateMultiplier);
+
+            // 🔥 particle (same as PurchaseStation)
+            SpawnParticles();
+
             upgradeLevel++;
             currentCost *= costMultiplier;
             UpdateCostText();
@@ -207,12 +205,8 @@ public class UpgradeStation : MonoBehaviour
             if (costText != null && !currentlyPulsing)
                 StartCoroutine(PulseCostText());
 
-            Debug.Log($"Station upgraded to level {upgradeLevel}. Next cost: {currentCost:0.##}");
-
             if (audioSource != null && clip != null)
-            {
                 audioSource.PlayOneShot(clip, volume);
-            }
         }
         else
         {
@@ -223,11 +217,18 @@ public class UpgradeStation : MonoBehaviour
         UpdateCooldownText();
     }
 
+    void SpawnParticles()
+    {
+        if (upgradeParticles == null)
+            return;
+
+        upgradeParticles.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+        upgradeParticles.Play();
+    }
+
     IEnumerator PulseCostText()
     {
         currentlyPulsing = true;
-        costText.color = textOriginalColor;
-        costText.fontSize = textOriginalSize;
 
         float maxSize = textOriginalSize * textPulseScale;
 
@@ -235,6 +236,7 @@ public class UpgradeStation : MonoBehaviour
         {
             float half = pulseDuration / 2f;
             float t = 0f;
+
             while (t < half)
             {
                 t += Time.deltaTime;
@@ -245,6 +247,7 @@ public class UpgradeStation : MonoBehaviour
             }
 
             t = 0f;
+
             while (t < half)
             {
                 t += Time.deltaTime;
