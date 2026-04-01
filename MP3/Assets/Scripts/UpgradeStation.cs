@@ -31,6 +31,8 @@ public class UpgradeStation : MonoBehaviour
 
     [Header("Cooldown")]
     public float cooldownSeconds = 3f;
+
+    [Header("Audio")]
     public AudioSource audioSource;
     public AudioClip clip;
     public float volume = 0.5f;
