@@ -2460,6 +2460,7 @@ GameObject:
   - component: {fileID: 252054321}
   - component: {fileID: 252054323}
   - component: {fileID: 252054322}
+  - component: {fileID: 252054324}
   m_Layer: 5
   m_Name: Panel
   m_TagString: Untagged
@@ -2526,6 +2527,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 252054320}
   m_CullTransparentMesh: 1
+--- !u!225 &252054324
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 252054320}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &252837752
 GameObject:
   m_ObjectHideFlags: 0
@@ -7144,6 +7157,7 @@ MonoBehaviour:
   bank: {fileID: 1137436181}
   tutorialPanel: {fileID: 252054320}
   tutorialText: {fileID: 324278182}
+  popupAnimationDuration: 0.3
 --- !u!4 &756981390
 Transform:
   m_ObjectHideFlags: 0
