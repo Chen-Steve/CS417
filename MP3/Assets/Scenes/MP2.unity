@@ -2485,8 +2485,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 1610, y: 844}
+  m_AnchoredPosition: {x: -2, y: 33.5}
+  m_SizeDelta: {x: 1027.3, y: 447.4}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &252054322
 MonoBehaviour:
@@ -3404,8 +3404,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 36
-  m_fontSizeBase: 36
+  m_fontSize: 18
+  m_fontSizeBase: 18
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -3443,7 +3443,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: -289.63202, y: -198.51335, z: -321.92892, w: -98.53662}
+  m_margin: {x: -255.34698, y: -120.50656, z: -265.7402, w: -200.14899}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -4035,7 +4035,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 9866fda0e61a7904087eb0ec5ab17e03, type: 2}
+  - {fileID: 2100000, guid: c72c18a65c5a3ed4ead4b1b025a1a5d8, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -9939,6 +9939,7 @@ GameObject:
   - component: {fileID: 1073197383}
   - component: {fileID: 1073197382}
   - component: {fileID: 1073197381}
+  - component: {fileID: 1073197384}
   m_Layer: 0
   m_Name: Pupil_R
   m_TagString: Untagged
@@ -9954,13 +9955,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1073197379}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.364, y: 0, z: 0}
+  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: 0.381, y: 0, z: 0.1}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 393627185}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
 --- !u!135 &1073197381
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -10039,6 +10040,21 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1073197379}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1073197384
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1073197379}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8911dc44e43ac19458f0cf56a4751d59, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EyesFollow
+  eyeCenter: {fileID: 393627185}
+  player: {fileID: 1135882940}
+  radius: 0.4
 --- !u!1 &1074061863
 GameObject:
   m_ObjectHideFlags: 0
@@ -10362,6 +10378,7 @@ GameObject:
   - component: {fileID: 1108968196}
   - component: {fileID: 1108968195}
   - component: {fileID: 1108968194}
+  - component: {fileID: 1108968197}
   m_Layer: 0
   m_Name: Pupil_L
   m_TagString: Untagged
@@ -10377,13 +10394,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1108968192}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.387, y: 0.07, z: 0}
+  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: 0.335, y: 0.07, z: 0.1}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1426611896}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
 --- !u!135 &1108968194
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -10462,6 +10479,21 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1108968192}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1108968197
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1108968192}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8911dc44e43ac19458f0cf56a4751d59, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EyesFollow
+  eyeCenter: {fileID: 1426611896}
+  player: {fileID: 1135882940}
+  radius: 0.4
 --- !u!1001 &1115986055
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10533,6 +10565,9 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 42497347}
     m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1717954561962503725, guid: f6336ac4ac8b4d34bc5072418cdc62a0, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1135882946}
     - targetCorrespondingSourceObject: {fileID: 1767192433, guid: f6336ac4ac8b4d34bc5072418cdc62a0, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1115986057}
@@ -10818,6 +10853,30 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4884014901107371272, guid: 6193058feee16f34aaa82c253523ec43, type: 3}
   m_PrefabInstance: {fileID: 1121257167}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1135882939 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1717954561962503725, guid: f6336ac4ac8b4d34bc5072418cdc62a0, type: 3}
+  m_PrefabInstance: {fileID: 1115986055}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1135882940 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1717954561962503726, guid: f6336ac4ac8b4d34bc5072418cdc62a0, type: 3}
+  m_PrefabInstance: {fileID: 1115986055}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1135882946
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1135882939}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2ca61b56b5a87e34eb088fb27c38934a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EditorMove
+  moveSpeed: 3
+  lookSpeed: 100
 --- !u!1001 &1137335967
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -13445,7 +13504,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 9866fda0e61a7904087eb0ec5ab17e03, type: 2}
+  - {fileID: 2100000, guid: c72c18a65c5a3ed4ead4b1b025a1a5d8, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -15679,8 +15738,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 8.78, y: 1.85}
-  m_SizeDelta: {x: 1083, y: 504}
+  m_AnchoredPosition: {x: 8.0677, y: 2.1834}
+  m_SizeDelta: {x: 1030.7546, y: 509.5125}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1699688515
 MonoBehaviour:
