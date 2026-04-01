@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using TMPro;
 
@@ -8,6 +9,7 @@ public class TutorialManager : MonoBehaviour
     [Header("UI")]
     public GameObject tutorialPanel;
     public TMP_Text tutorialText;
+    public float popupAnimationDuration = 0.5f;
 
     int stage = 0;
     bool waitingForStationPurchase = false;
@@ -28,7 +30,7 @@ public class TutorialManager : MonoBehaviour
     public void ClosePopup()
     {
         if (tutorialPanel != null)
-            tutorialPanel.SetActive(false);
+            StartCoroutine(ClosePopupAnimation());
 
         if (stage == 3)
         {
@@ -41,7 +43,10 @@ public class TutorialManager : MonoBehaviour
         stage = 1;
 
         if (tutorialPanel != null)
+        {
             tutorialPanel.SetActive(true);
+            StartCoroutine(ShowPopupAnimation());
+        }
 
         if (tutorialText != null)
         {
@@ -58,7 +63,10 @@ public class TutorialManager : MonoBehaviour
         waitingForStationPurchase = true;
 
         if (tutorialPanel != null)
+        {
             tutorialPanel.SetActive(true);
+            StartCoroutine(ShowPopupAnimation());
+        }
 
         if (tutorialText != null)
         {
@@ -77,7 +85,10 @@ public class TutorialManager : MonoBehaviour
         stage = 3;
 
         if (tutorialPanel != null)
+        {
             tutorialPanel.SetActive(true);
+            StartCoroutine(ShowPopupAnimation());
+        }
 
         if (tutorialText != null)
         {
@@ -92,7 +103,10 @@ public class TutorialManager : MonoBehaviour
         stage = 4;
 
         if (tutorialPanel != null)
+        {
             tutorialPanel.SetActive(true);
+            StartCoroutine(ShowPopupAnimation());
+        }
 
         if (tutorialText != null)
         {
@@ -101,5 +115,37 @@ public class TutorialManager : MonoBehaviour
                 "If you make enough food, your achievements will be recognized at the large table.\n\n" +
                 "Happy cooking!";
         }
+    }
+
+    IEnumerator ClosePopupAnimation()
+    {
+        CanvasGroup canvasGroup = tutorialPanel.GetComponent<CanvasGroup>();
+        float originalAlpha = canvasGroup.alpha;
+
+        float t = 0f;
+        while (t < popupAnimationDuration && canvasGroup.alpha > 0f)
+        {
+            t += Time.deltaTime;
+            canvasGroup.alpha = Mathf.SmoothStep(1f, 0f, t/popupAnimationDuration);
+            yield return null;
+        }
+
+        tutorialPanel.SetActive(false);
+        canvasGroup.alpha = originalAlpha;
+    }
+    IEnumerator ShowPopupAnimation()
+    {
+        CanvasGroup canvasGroup = tutorialPanel.GetComponent<CanvasGroup>();
+        canvasGroup.alpha = 0f;
+
+        float t = 0f;
+        while (t < popupAnimationDuration && canvasGroup.alpha < 1f)
+        {
+            t += Time.deltaTime;
+            canvasGroup.alpha = Mathf.SmoothStep(0f, 1f, t/popupAnimationDuration);
+            yield return null;
+        }
+
+        canvasGroup.alpha = 1f;
     }
 }

@@ -16,6 +16,11 @@ public class TrophyUnlocks : MonoBehaviour
     public float sandwichGoal = 5f;
     public float lasagnaGoal = 5f;
 
+    [Header("Audio")]
+    public AudioSource audioSource;
+    public AudioClip clip;
+    public float volume = 0.5f;
+
     [Header("Particles (placed in scene under trophies)")]
     public ParticleSystem hotDogParticles;
     public ParticleSystem friesParticles;
@@ -35,24 +40,32 @@ public class TrophyUnlocks : MonoBehaviour
         {
             SetTrophyActive(hotDogTrophy);
             SpawnParticles(hotDogParticles);
+            if (audioSource != null && clip != null)
+                audioSource.PlayOneShot(clip, volume);
         }
 
         if (bank.totalFries >= friesGoal && !IsTrophyActive(friesTrophy))
         {
             SetTrophyActive(friesTrophy);
             SpawnParticles(friesParticles);
+            if (audioSource != null && clip != null)
+                audioSource.PlayOneShot(clip, volume);
         }
 
         if (bank.totalSandwiches >= sandwichGoal && !IsTrophyActive(sandwichTrophy))
         {
             SetTrophyActive(sandwichTrophy);
             SpawnParticles(sandwichParticles);
+            if (audioSource != null && clip != null)
+                audioSource.PlayOneShot(clip, volume);
         }
 
         if (bank.totalLasagna >= lasagnaGoal && !IsTrophyActive(lasagnaTrophy))
         {
             SetTrophyActive(lasagnaTrophy);
             SpawnParticles(lasagnaParticles);
+            if (audioSource != null && clip != null)
+                audioSource.PlayOneShot(clip, volume);
         }
     }
 
