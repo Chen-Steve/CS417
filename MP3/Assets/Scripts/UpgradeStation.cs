@@ -38,15 +38,8 @@ public class UpgradeStation : MonoBehaviour
     [Header("Particles (placed in scene)")]
     public ParticleSystem upgradeParticles;
 
-    [Header("Text Pulse")]
-    int pulseCount = 3;
-    float pulseDuration = 0.5f;
-    Color textPulseColor = Color.red;
+    [Header("Text Pulse")] 
     float textPulseScale = 1.3f;
-    Color textOriginalColor;
-    float textOriginalSize;
-    bool currentlyPulsing;
-
     private int upgradeLevel;
     private float currentCost;
     private float cooldownRemaining;
@@ -55,12 +48,6 @@ public class UpgradeStation : MonoBehaviour
     {
         upgradeButton = GetComponent<XRSimpleInteractable>();
         currentCost = Mathf.Max(0f, GetInitialCost());
-
-        if (costText != null)
-        {
-            textOriginalColor = costText.color;
-            textOriginalSize = costText.fontSize;
-        }
 
         UpdateCostText();
     }
@@ -202,8 +189,11 @@ public class UpgradeStation : MonoBehaviour
             UpdateCostText();
             cooldownRemaining = Mathf.Max(0f, cooldownSeconds);
 
-            if (costText != null && !currentlyPulsing)
-                StartCoroutine(PulseCostText());
+            if (costText != null)
+                StartCoroutine(PulseText(costText, 1, 1f, Color.yellow));
+
+            if (cooldownText != null && cooldownRemaining > 0f)
+                StartCoroutine(PulseText(cooldownText, Mathf.CeilToInt(cooldownSeconds), 1f, Color.red));
 
             if (audioSource != null && clip != null)
                 audioSource.PlayOneShot(clip, volume);
@@ -226,40 +216,42 @@ public class UpgradeStation : MonoBehaviour
         upgradeParticles.Play();
     }
 
-    IEnumerator PulseCostText()
+    IEnumerator PulseText(TMP_Text text, int pulseCount, float pulseDuration = 1.0f, Color pulseColor = default)
     {
-        currentlyPulsing = true;
+        if (pulseColor == default)
+            pulseColor = Color.red;
 
-        float maxSize = textOriginalSize * textPulseScale;
+        Color originalColor = text.color;
+        float originalSize = text.fontSize;
+
+        float maxSize = originalSize * textPulseScale;
 
         for (int i = 0; i < pulseCount; i++)
         {
             float half = pulseDuration / 2f;
-            float t = 0f;
 
+            float t = 0f;
             while (t < half)
             {
                 t += Time.deltaTime;
                 float ratio = t / half;
-                costText.color = Color.Lerp(textOriginalColor, textPulseColor, ratio);
-                costText.fontSize = Mathf.Lerp(textOriginalSize, maxSize, ratio);
+                text.color = Color.Lerp(originalColor, pulseColor, ratio);
+                text.fontSize = Mathf.Lerp(originalSize, maxSize, ratio);
                 yield return null;
             }
 
             t = 0f;
-
             while (t < half)
             {
                 t += Time.deltaTime;
                 float ratio = t / half;
-                costText.color = Color.Lerp(textPulseColor, textOriginalColor, ratio);
-                costText.fontSize = Mathf.Lerp(maxSize, textOriginalSize, ratio);
+                text.color = Color.Lerp(pulseColor, originalColor, ratio);
+                text.fontSize = Mathf.Lerp(maxSize, originalSize, ratio);
                 yield return null;
             }
         }
 
-        costText.color = textOriginalColor;
-        costText.fontSize = textOriginalSize;
-        currentlyPulsing = false;
+        text.color = originalColor;
+        text.fontSize = originalSize;
     }
 }
