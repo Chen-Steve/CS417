@@ -3,6 +3,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.XR.Interaction.Toolkit;
 using UnityEngine.XR.Interaction.Toolkit.Interactables;
+using UnityEngine.XR.Interaction.Toolkit.Interactors;
 
 public class UpgradeStation : MonoBehaviour
 {
@@ -194,7 +195,6 @@ public class UpgradeStation : MonoBehaviour
             bank.money -= currentCost;
             stationToUpgrade.MultiplyProductionRate(rateMultiplier);
 
-            // 🔥 particle (same as PurchaseStation)
             SpawnParticles();
 
             upgradeLevel++;
@@ -207,10 +207,6 @@ public class UpgradeStation : MonoBehaviour
 
             if (audioSource != null && clip != null)
                 audioSource.PlayOneShot(clip, volume);
-        }
-        else
-        {
-            Debug.Log("Not enough money.");
         }
 
         RefreshButtonState();
