@@ -20,24 +20,17 @@ public class StationGenerator : MonoBehaviour
     public int maxVisualFood = 3;
     public GameObject foodPrefab;
     public float visualLifetime = 15f;
-    public bool replaceOldestVisualWhenFull = true;
     public Transform customerStandPoint;
     readonly List<GameObject> activeVisuals = new List<GameObject>();
     float visualSpawnProgress;
-    float lastTrackedFoodAmount;
-    bool hasTrackedFoodAmount;
+    public ParticleSystem foodParticles;
+
 
     bool isActive = false;
 
     void OnEnable()
     {
         StartGenerating();
-
-        if (bank != null)
-        {
-            lastTrackedFoodAmount = GetCurrentFoodAmount();
-            hasTrackedFoodAmount = true;
-        }
     }
 
     void StartGenerating()
@@ -57,7 +50,6 @@ public class StationGenerator : MonoBehaviour
 
         ApplyRateDelta(-foodPerSecond);
         isActive = false;
-        hasTrackedFoodAmount = false;
     }
 
     public void IncreaseProductionRate(float amount)
@@ -119,21 +111,7 @@ public class StationGenerator : MonoBehaviour
         if (bank == null || !isActive)
             return;
 
-        float currentFoodAmount = GetCurrentFoodAmount();
-
-        if (!hasTrackedFoodAmount)
-        {
-            lastTrackedFoodAmount = currentFoodAmount;
-            hasTrackedFoodAmount = true;
-        }
-
-        float producedDelta = currentFoodAmount - lastTrackedFoodAmount;
-        lastTrackedFoodAmount = currentFoodAmount;
-
-        if (producedDelta <= 0f)
-            return;
-
-        visualSpawnProgress += producedDelta;
+        visualSpawnProgress += foodPerSecond * Time.deltaTime;
 
         while (visualSpawnProgress >= 1f)
         {
@@ -146,23 +124,6 @@ public class StationGenerator : MonoBehaviour
         }
     }
 
-    float GetCurrentFoodAmount()
-    {
-        switch (produces)
-        {
-            case FoodType.HotDog:
-                return bank.hotDogs;
-            case FoodType.Fries:
-                return bank.fries;
-            case FoodType.Sandwich:
-                return bank.sandwiches;
-            case FoodType.Lasagna:
-                return bank.lasagne;
-            default:
-                return 0f;
-        }
-    }
-
     bool SpawnFood()
     {
         if (foodPrefab == null || spawnPoint == null)
@@ -172,9 +133,6 @@ public class StationGenerator : MonoBehaviour
 
         if (maxVisualFood > 0 && activeVisuals.Count >= maxVisualFood)
         {
-            if (!replaceOldestVisualWhenFull)
-                return false;
-
             GameObject oldest = activeVisuals[0];
             activeVisuals.RemoveAt(0);
 
@@ -183,7 +141,9 @@ public class StationGenerator : MonoBehaviour
         }
 
         GameObject food = Instantiate(foodPrefab, spawnPoint.position, spawnPoint.rotation);
+        EnableSpawnedFoodPhysics(food);
         activeVisuals.Add(food);
+        PlayFoodParticles();
 
         // when destroyed, reduce counter
         StartCoroutine(DestroyVisualAfterDelay(food, visualLifetime));
@@ -200,5 +160,35 @@ public class StationGenerator : MonoBehaviour
 
         if (food != null)
             Destroy(food);
+    }
+
+    void EnableSpawnedFoodPhysics(GameObject food)
+    {
+        if (food == null)
+            return;
+
+        Rigidbody[] bodies = food.GetComponentsInChildren<Rigidbody>(true);
+        for (int i = 0; i < bodies.Length; i++)
+        {
+            Rigidbody body = bodies[i];
+            if (body == null)
+                continue;
+
+            body.isKinematic = false;
+            body.useGravity = true;
+            body.WakeUp();
+        }
+    }
+
+    void PlayFoodParticles()
+    {
+        if (foodParticles == null || spawnPoint == null)
+            return;
+
+        foodParticles.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+        foodParticles.Play();
+
+        // foodParticles.transform.position = spawnPoint.position;
+        // foodParticles.transform.rotation = spawnPoint.rotation;
     }
 }
