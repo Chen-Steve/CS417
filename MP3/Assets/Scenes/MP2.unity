@@ -7700,6 +7700,9 @@ MonoBehaviour:
   visualLifetime: 15
   customerStandPoint: {fileID: 173506822}
   foodParticles: {fileID: 1412033979}
+  audioSource: {fileID: 795962582}
+  clip: {fileID: 8300000, guid: 30a4959585fbe48fe9cb124cd4c1cf47, type: 3}
+  volume: 0.5
 --- !u!1 &826505641
 GameObject:
   m_ObjectHideFlags: 0
@@ -9002,6 +9005,9 @@ MonoBehaviour:
   visualLifetime: 15
   customerStandPoint: {fileID: 1951427946}
   foodParticles: {fileID: 1052329310}
+  audioSource: {fileID: 910224428}
+  clip: {fileID: 8300000, guid: 30a4959585fbe48fe9cb124cd4c1cf47, type: 3}
+  volume: 0.5
 --- !u!1001 &924781587
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -11021,6 +11027,9 @@ MonoBehaviour:
   visualLifetime: 15
   customerStandPoint: {fileID: 243677848}
   foodParticles: {fileID: 567854593}
+  audioSource: {fileID: 1118171127}
+  clip: {fileID: 8300000, guid: 30a4959585fbe48fe9cb124cd4c1cf47, type: 3}
+  volume: 0.5
 --- !u!1001 &1121257167
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -16681,6 +16690,9 @@ MonoBehaviour:
   visualLifetime: 15
   customerStandPoint: {fileID: 1074061864}
   foodParticles: {fileID: 1556761594}
+  audioSource: {fileID: 1810193930}
+  clip: {fileID: 8300000, guid: 30a4959585fbe48fe9cb124cd4c1cf47, type: 3}
+  volume: 0.5
 --- !u!1001 &1832013841
 PrefabInstance:
   m_ObjectHideFlags: 0

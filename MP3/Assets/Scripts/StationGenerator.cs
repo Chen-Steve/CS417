@@ -25,6 +25,10 @@ public class StationGenerator : MonoBehaviour
     float visualSpawnProgress;
     public ParticleSystem foodParticles;
 
+    [Header("Audio")]
+    public AudioSource audioSource;
+    public AudioClip clip;
+    public float volume = 0.5f;
 
     bool isActive = false;
 
@@ -144,6 +148,9 @@ public class StationGenerator : MonoBehaviour
         EnableSpawnedFoodPhysics(food);
         activeVisuals.Add(food);
         PlayFoodParticles();
+
+        if (audioSource != null && clip != null)
+            audioSource.PlayOneShot(clip, volume);
 
         // when destroyed, reduce counter
         StartCoroutine(DestroyVisualAfterDelay(food, visualLifetime));
